@@ -11,11 +11,8 @@ hosts:
 up:
 	docker compose -f ./srcs/docker-compose.yml up -d
 
-stop:
-	docker compose -f ./srcs/docker-compose.yml stop
-
-start:
-	docker compose -f ./srcs/docker-compose.yml start
+down:
+	docker compose -f ./srcs/docker-compose.yml down
 
 build: hosts
 	docker compose -f ./srcs/docker-compose.yml build --no-cache
@@ -36,15 +33,13 @@ logs-wordpress:
 logs-mariadb:
 	docker compose -f ./srcs/docker-compose.yml logs -f --tail=100 mariadb
 
-down:
-	docker compose -f ./srcs/docker-compose.yml down
-
 clean:
 	docker compose -f ./srcs/docker-compose.yml down
 
 fclean:
 	docker compose -f ./srcs/docker-compose.yml down --rmi all --volumes --remove-orphans
+	sudo rm -rf ~/data/mariadb_data ~/data/wp_data
 
 re: fclean all
 
-.PHONY: all up down start stop build status logs logs-nginx logs-wordpress logs-mariadb clean fclean re
+.PHONY: all up down build status logs logs-nginx logs-wordpress logs-mariadb clean fclean re
