@@ -77,11 +77,11 @@ Creating them:
 
 ```bash
 mkdir -p secrets
-printf 'a-strong-root-password'      > secrets/db_root_password.txt
-printf 'a-strong-database-password'  > secrets/db_password.txt
+printf 'supersecure'      > secrets/db_root_password.txt
+printf 'supersecure'  > secrets/db_password.txt
 cat > secrets/credentials.txt <<'EOF'
-WP_ADMIN_PASSWORD=a-strong-admin-password
-WP_USER_PASSWORD=a-strong-user-password
+WP_ADMIN_PASSWORD=supersecure
+WP_USER_PASSWORD=supersecure
 EOF
 chmod 600 secrets/*.txt
 ```

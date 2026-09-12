@@ -16,7 +16,7 @@ down:
 
 build: hosts
 	docker compose -f ./srcs/docker-compose.yml build --no-cache
-	mkdir -p /home/user/data/mariadb_data /home/user/data/wp_data
+	mkdir -p /home/vnicoles/data/mariadb_data /home/vnicoles/data/wp_data
 
 status:
 	docker ps

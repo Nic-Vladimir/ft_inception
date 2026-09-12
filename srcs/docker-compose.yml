@@ -60,14 +60,14 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/user/data/wp_data
+      device: /home/vnicoles/data/wp_data
       o: bind
 
   mariadb_data:
     driver: local
     driver_opts:
       type: none
-      device: /home/user/data/mariadb_data
+      device: /home/vnicoles/data/mariadb_data
       o: bind
 
 networks:
