@@ -1,0 +1,5 @@
+.env
+/secrets/*
+.DS_Store
+/wp_data/
+/mariadb_data/
