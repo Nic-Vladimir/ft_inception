@@ -1,6 +1,5 @@
 services:
   nginx:
-    image: nginx
     container_name: nginx
     build: ./requirements/nginx
     ports:
@@ -14,7 +13,6 @@ services:
       - inception_network
 
   wordpress:
-    image: wordpress
     container_name: wordpress
     build: ./requirements/wordpress
     restart: always
@@ -22,13 +20,15 @@ services:
       - wordpress_data:/var/www/html
     env_file:
       - .env
+    secrets:
+      - db_password
+      - credentials
     depends_on:
       - mariadb
     networks:
       - inception_network
 
   mariadb:
-    image: mariadb
     container_name: mariadb
     build: ./requirements/mariadb
     restart: always
@@ -36,8 +36,21 @@ services:
       - mariadb_data:/var/lib/mysql
     env_file:
       - .env
+    secrets:
+      - db_password
+      - db_root_password
     networks:
       - inception_network
+
+# Passwords are never stored in .env nor in the Dockerfiles: they are mounted
+# read-only inside the containers as /run/secrets/<name>.
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+  credentials:
+    file: ../secrets/credentials.txt
 
 volumes:
   wordpress_data:

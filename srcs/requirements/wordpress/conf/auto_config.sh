@@ -1,6 +1,32 @@
 #!/bin/bash
 set -e
 
+# Passwords come from Docker secrets, never from the environment.
+read_secret() {
+  if [ ! -r "$1" ]; then
+    echo "❌ Missing Docker secret: $1" >&2
+    exit 1
+  fi
+  tr -d '\r\n' <"$1"
+}
+
+MARIADB_PASSWORD="$(read_secret /run/secrets/db_password)"
+
+# secrets/credentials.txt holds the two WordPress account passwords as
+# KEY=value lines (multi-line, so it is parsed instead of read as a whole).
+CREDENTIALS=/run/secrets/credentials
+if [ ! -r "$CREDENTIALS" ]; then
+  echo "❌ Missing Docker secret: $CREDENTIALS" >&2
+  exit 1
+fi
+WP_ADMIN_PASS="$(sed -n 's/^WP_ADMIN_PASSWORD=//p' "$CREDENTIALS" | tr -d '\r\n')"
+WP_USER_PWD="$(sed -n 's/^WP_USER_PASSWORD=//p' "$CREDENTIALS" | tr -d '\r\n')"
+
+if [ -z "$WP_ADMIN_PASS" ] || [ -z "$WP_USER_PWD" ]; then
+  echo "❌ WP_ADMIN_PASSWORD / WP_USER_PASSWORD missing in secrets/credentials.txt" >&2
+  exit 1
+fi
+
 echo "⏳ Waiting for MariaDB to be ready..."
 while ! mariadb \
   -h"${MARIADB_HOST}" \
