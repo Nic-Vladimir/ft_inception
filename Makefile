@@ -9,7 +9,6 @@ hosts:
 	fi
 
 up:
-	mkdir -p /home/vladimir/data/mariadb_data /home/vladimir/data/wp_data
 	docker compose -f ./srcs/docker-compose.yml up -d
 
 stop:
@@ -20,6 +19,7 @@ start:
 
 build: hosts
 	docker compose -f ./srcs/docker-compose.yml build --no-cache
+	mkdir -p /home/vladimir/data/mariadb_data /home/vladimir/data/wp_data
 
 status:
 	docker ps
