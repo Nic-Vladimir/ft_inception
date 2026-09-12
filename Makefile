@@ -1,7 +1,7 @@
 all: up
 
 up:
-	mkdir -p ./mariadb_data ./wp_data
+	mkdir -p /home/vladimir/data/mariadb_data /home/vladimir/data/wp_data
 	docker compose -f ./srcs/docker-compose.yml up -d
 
 stop:
@@ -25,7 +25,7 @@ clean:
 fclean:
 	docker compose -f ./srcs/docker-compose.yml down
 	docker system prune -af --volumes
-	rm -rf ./mariadb_data ./wp_data
+	rm -rf /home/vladimir/data/mariadb_data /home/vladimir/data/wp_data
 
 re: fclean all
 

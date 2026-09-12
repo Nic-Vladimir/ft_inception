@@ -1,7 +1,8 @@
 services:
   nginx:
-    build: ./requirements/nginx
+    image: nginx
     container_name: nginx
+    build: ./requirements/nginx
     ports:
       - "443:443"
     restart: always
@@ -13,8 +14,9 @@ services:
       - inception_network
 
   wordpress:
-    build: ./requirements/wordpress
+    image: wordpress
     container_name: wordpress
+    build: ./requirements/wordpress
     restart: always
     volumes:
       - wordpress_data:/var/www/html
@@ -26,8 +28,9 @@ services:
       - inception_network
 
   mariadb:
-    build: ./requirements/mariadb
+    image: mariadb
     container_name: mariadb
+    build: ./requirements/mariadb
     restart: always
     volumes:
       - mariadb_data:/var/lib/mysql
@@ -41,14 +44,14 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/vladimir/42Projects/inception/wp_data #/home/vnicoles/data/wordpress
+      device: /home/vladimir/data/wp_data
       o: bind
 
   mariadb_data:
     driver: local
     driver_opts:
       type: none
-      device: /home/vladimir/42Projects/inception/mariadb_data #/home/vnicoles/data/mariadb
+      device: /home/vladimir/data/mariadb_data
       o: bind
 
 networks:
